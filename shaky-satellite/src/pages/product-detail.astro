@@ -1,0 +1,249 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import { products, whatsappNumber } from "../data/products";
+
+const selectedId = Number(Astro.url.searchParams.get("product") || 2);
+const product = products.find((item) => item.id === selectedId) || products[1];
+---
+
+<Layout title={`${product.name} | Girl Collection`}>
+  <Navbar />
+  <main class="page">
+    <section class="container detail">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span class="material-symbols-outlined">chevron_right</span>
+        <a href="/products">Catalog</a>
+        <span class="material-symbols-outlined">chevron_right</span>
+        <span>{product.name}</span>
+      </nav>
+
+      <div class="detail-grid">
+        <div class="gallery">
+          <div class="main-image">
+            <img src={product.img} alt={product.name} />
+            {product.featured && <span>Best Seller</span>}
+          </div>
+          <div class="thumbs" aria-label="Pilihan gambar produk">
+            {[product.img, products[0].img, products[3].img, products[6].img].map((image) => (
+              <button type="button"><img src={image} alt="" /></button>
+            ))}
+          </div>
+        </div>
+
+        <div class="summary">
+          <span class="eyebrow">{product.category}</span>
+          <h1 class="title-lg">{product.name}</h1>
+          <div class="rating">
+            <span class="material-symbols-outlined filled">star</span>
+            <span class="material-symbols-outlined filled">star</span>
+            <span class="material-symbols-outlined filled">star</span>
+            <span class="material-symbols-outlined filled">star</span>
+            <span class="material-symbols-outlined filled">star_half</span>
+            <strong>4.9/5</strong>
+            <span>1.2k+ terjual</span>
+          </div>
+          <p class="price">{product.price}</p>
+          <p class="note">Produk pilihan dengan bahan nyaman, warna manis, dan cocok dipakai sebagai daily favorite atau self reward.</p>
+
+          <div class="colors">
+            <span>Pilih Warna: <strong>Cloud Lavender</strong></span>
+            <div>
+              {["#e6e6fa", "#fff0f5", "#f0f8ff", "#f5f5dc"].map((color, index) => (
+                <button class:list={[index === 0 && "selected"]} style={`background:${color}`} aria-label={`Warna ${index + 1}`}></button>
+              ))}
+            </div>
+          </div>
+
+          <div class="actions">
+            <a
+              class="btn btn-primary"
+              href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Halo Girl Collection! Aku mau pesan produk ini ya:\n\n${product.name}\n${product.price}\n\nMohon info selanjutnya ya, terima kasih!`)}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span class="material-symbols-outlined">chat</span>
+              Beli Sekarang
+            </a>
+            <a class="btn btn-outline" href="/cart">
+              <span class="material-symbols-outlined">add_shopping_cart</span>
+              Tambah ke Keranjang
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .detail {
+    padding-block: 34px 20px;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-bottom: 26px;
+    color: var(--muted);
+    font-size: 0.92rem;
+    font-weight: 800;
+  }
+
+  .breadcrumb span:last-child {
+    color: var(--primary);
+  }
+
+  .breadcrumb .material-symbols-outlined {
+    font-size: 18px;
+  }
+
+  .detail-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(310px, 0.85fr);
+    gap: clamp(28px, 6vw, 72px);
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: 92px minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .main-image {
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+    aspect-ratio: 4 / 5;
+    background: var(--surface-high);
+    box-shadow: var(--shadow);
+  }
+
+  .main-image img,
+  .thumbs img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .main-image span {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    border-radius: 999px;
+    background: white;
+    color: var(--primary);
+    font-weight: 900;
+    padding: 8px 12px;
+  }
+
+  .thumbs {
+    order: -1;
+    display: grid;
+    align-content: start;
+    gap: 12px;
+  }
+
+  .thumbs button {
+    overflow: hidden;
+    border: 2px solid transparent;
+    border-radius: 14px;
+    aspect-ratio: 4 / 5;
+    background: var(--surface-high);
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .thumbs button:first-child,
+  .thumbs button:hover {
+    border-color: var(--primary);
+  }
+
+  .summary {
+    display: grid;
+    align-content: start;
+    gap: 18px;
+  }
+
+  .rating {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px 10px;
+    color: var(--muted);
+  }
+
+  .filled {
+    color: var(--primary);
+    font-variation-settings: "FILL" 1, "wght" 600, "GRAD" 0, "opsz" 24;
+  }
+
+  .price {
+    margin: 0;
+    color: var(--primary);
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900;
+  }
+
+  .note {
+    margin: 0;
+    border: 1px solid rgba(170, 44, 98, 0.16);
+    border-radius: var(--radius);
+    background: var(--surface-low);
+    color: var(--muted);
+    padding: 18px;
+  }
+
+  .colors > span {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 800;
+  }
+
+  .colors strong {
+    color: var(--primary);
+  }
+
+  .colors div,
+  .actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .colors button {
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--outline);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .colors button.selected {
+    outline: 3px solid var(--primary);
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 900px) {
+    .detail-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .gallery {
+      grid-template-columns: 1fr;
+    }
+
+    .thumbs {
+      order: 1;
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>

@@ -1,0 +1,193 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import { cartItems, whatsappNumber } from "../data/products";
+
+const subtotal = cartItems.reduce((total, item) => total + item.numericPrice, 0);
+const format = new Intl.NumberFormat("id-ID").format;
+const message = `Halo Girl Collection! Aku mau checkout pesanan berikut:\n\n${cartItems
+  .map((item) => `- ${item.name} (x1) - ${item.price}`)
+  .join("\n")}\n\nTotal: Rp ${format(subtotal)}\n\nMohon info langkah selanjutnya ya, terima kasih!`;
+---
+
+<Layout title="Keranjang | Girl Collection">
+  <Navbar />
+  <main class="page">
+    <section class="container cart">
+      <div class="cart-list">
+        <div class="cart-head">
+          <h1 class="title-md">Keranjang Belanja</h1>
+          <span>{cartItems.length} Items</span>
+        </div>
+        {cartItems.map((item) => (
+          <article class="cart-item">
+            <img src={item.img} alt={item.name} />
+            <div>
+              <h2>{item.name}</h2>
+              <p>{item.price}</p>
+              <span>Qty: 1</span>
+            </div>
+            <button type="button" aria-label={`Hapus ${item.name}`}>
+              <span class="material-symbols-outlined">delete</span>
+            </button>
+          </article>
+        ))}
+      </div>
+
+      <aside class="summary">
+        <h2>Ringkasan Pesanan</h2>
+        <div>
+          <span>Subtotal</span>
+          <strong>Rp {format(subtotal)}</strong>
+        </div>
+        <p>Estimasi pengiriman akan diinformasikan setelah detail alamat dikirim melalui chat WhatsApp.</p>
+        <div class="total">
+          <span>Total</span>
+          <strong>Rp {format(subtotal)}</strong>
+        </div>
+        <a class="btn checkout" href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`} target="_blank" rel="noreferrer">
+          <span class="material-symbols-outlined">chat</span>
+          Checkout via WhatsApp
+        </a>
+      </aside>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .cart {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 28px;
+    padding-block: 42px;
+  }
+
+  .cart-list {
+    display: grid;
+    gap: 16px;
+  }
+
+  .cart-head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--outline);
+    padding-bottom: 14px;
+  }
+
+  .cart-head span {
+    color: var(--muted);
+    font-weight: 800;
+  }
+
+  .cart-item {
+    display: grid;
+    grid-template-columns: 128px minmax(0, 1fr) 46px;
+    align-items: center;
+    gap: 18px;
+    border: 1px solid rgba(220, 191, 198, 0.65);
+    border-radius: var(--radius);
+    background: white;
+    padding: 16px;
+  }
+
+  .cart-item img {
+    width: 128px;
+    height: 128px;
+    border-radius: 16px;
+    object-fit: cover;
+  }
+
+  .cart-item h2 {
+    margin: 0 0 6px;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 1.12rem;
+  }
+
+  .cart-item p {
+    margin: 0;
+    color: var(--primary);
+    font-weight: 900;
+  }
+
+  .cart-item button {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: var(--surface-low);
+    color: var(--muted);
+    cursor: pointer;
+  }
+
+  .summary {
+    position: sticky;
+    top: 112px;
+    display: grid;
+    align-self: start;
+    gap: 18px;
+    border: 1px solid rgba(170, 44, 98, 0.16);
+    border-radius: var(--radius);
+    background: white;
+    box-shadow: var(--shadow);
+    padding: 24px;
+  }
+
+  .summary h2 {
+    margin: 0;
+    font-family: "Plus Jakarta Sans", sans-serif;
+  }
+
+  .summary div {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+  }
+
+  .summary p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+
+  .total {
+    border-top: 1px solid var(--outline);
+    padding-top: 16px;
+    color: var(--primary);
+    font-size: 1.12rem;
+    font-weight: 900;
+  }
+
+  .checkout {
+    width: 100%;
+    background: var(--whatsapp);
+    color: white;
+  }
+
+  @media (max-width: 900px) {
+    .cart {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .cart-item {
+      grid-template-columns: 90px minmax(0, 1fr);
+    }
+
+    .cart-item img {
+      width: 90px;
+      height: 90px;
+    }
+
+    .cart-item button {
+      grid-column: 2;
+      width: 100%;
+      border-radius: 999px;
+    }
+  }
+</style>

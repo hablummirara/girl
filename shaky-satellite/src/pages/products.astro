@@ -1,0 +1,95 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import ProductCard from "../components/ProductCard.astro";
+import { products } from "../data/products";
+
+const categories = ["All", ...new Set(products.map((product) => product.category))];
+---
+
+<Layout title="Products | Girl Collection">
+  <Navbar />
+  <main class="page">
+    <header class="catalog-hero container">
+      <span class="eyebrow">Catalog</span>
+      <h1 class="title-lg">Koleksi pilihan untuk gaya, makeup, dan self care kamu</h1>
+      <p class="lead">Pilih kategori favoritmu, lihat detail produk, lalu lanjut checkout langsung melalui WhatsApp.</p>
+    </header>
+
+    <section class="container catalog">
+      <div class="chips" aria-label="Kategori produk">
+        {categories.map((category) => <button type="button" data-filter={category}>{category}</button>)}
+      </div>
+
+      <div class="grid-products" data-products>
+        {products.map((product) => <div data-category={product.category}><ProductCard product={product} /></div>)}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  const buttons = Array.from(document.querySelectorAll("[data-filter]"));
+  const cards = Array.from(document.querySelectorAll("[data-category]"));
+
+  buttons[0]?.classList.add("active");
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const category = button.getAttribute("data-filter");
+      buttons.forEach((item) => item.classList.toggle("active", item === button));
+      cards.forEach((card) => {
+        const show = category === "All" || card.getAttribute("data-category") === category;
+        card.classList.toggle("hidden", !show);
+      });
+    });
+  });
+</script>
+
+<style>
+  .catalog-hero {
+    display: grid;
+    max-width: 850px;
+    gap: 18px;
+    padding-block: clamp(54px, 8vw, 96px) 34px;
+    text-align: center;
+  }
+
+  .catalog-hero .eyebrow {
+    margin-inline: auto;
+  }
+
+  .catalog {
+    display: grid;
+    gap: 28px;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .chips button {
+    min-height: 40px;
+    border: 1px solid rgba(170, 44, 98, 0.22);
+    border-radius: 999px;
+    background: white;
+    color: var(--muted);
+    cursor: pointer;
+    font-weight: 800;
+    padding: 8px 15px;
+  }
+
+  .chips button.active,
+  .chips button:hover {
+    background: var(--primary);
+    color: white;
+  }
+
+  .hidden {
+    display: none;
+  }
+</style>

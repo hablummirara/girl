@@ -1,0 +1,143 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+
+const faqs = [
+  {
+    q: "Bagaimana cara memesan?",
+    a: "Pilih produk favoritmu, buka detail produk, lalu klik Beli Sekarang atau checkout melalui halaman keranjang. Pesanan akan langsung masuk ke WhatsApp Girl Collection.",
+  },
+  {
+    q: "Berapa lama pengiriman?",
+    a: "Pengiriman biasanya memakan waktu 2-4 hari kerja tergantung lokasi. Detail ongkir dan estimasi final akan diinformasikan lewat WhatsApp.",
+  },
+  {
+    q: "Apakah bisa retur?",
+    a: "Bisa, selama barang cacat atau tidak sesuai pesanan. Ajukan retur maksimal 2x24 jam setelah paket diterima dengan video unboxing.",
+  },
+  {
+    q: "Metode pembayaran apa saja?",
+    a: "Kami menerima transfer bank dan e-wallet populer. Instruksi pembayaran akan dikirim setelah pesanan dikonfirmasi.",
+  },
+];
+---
+
+<Layout title="FAQ | Girl Collection">
+  <Navbar />
+  <main class="page">
+    <header class="faq-head container">
+      <span class="eyebrow">Girl Support Center</span>
+      <h1 class="title-lg">Punya pertanyaan? Kami siap membantu</h1>
+    </header>
+
+    <section class="container faq-list">
+      {faqs.map((faq, index) => (
+        <article class:list={["faq-item", index === 0 && "open"]}>
+          <button type="button" aria-expanded={index === 0 ? "true" : "false"}>
+            <span>{faq.q}</span>
+            <span class="material-symbols-outlined">expand_more</span>
+          </button>
+          <div>
+            <p>{faq.a}</p>
+          </div>
+        </article>
+      ))}
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  document.querySelectorAll(".faq-item button").forEach((button) => {
+    button.addEventListener("click", () => {
+      const item = button.closest(".faq-item");
+      const isOpen = item?.classList.contains("open");
+      document.querySelectorAll(".faq-item").forEach((faq) => {
+        faq.classList.remove("open");
+        faq.querySelector("button")?.setAttribute("aria-expanded", "false");
+      });
+      if (!isOpen) {
+        item?.classList.add("open");
+        button.setAttribute("aria-expanded", "true");
+      }
+    });
+  });
+</script>
+
+<style>
+  .faq-head {
+    display: grid;
+    max-width: 850px;
+    gap: 18px;
+    padding-block: clamp(58px, 9vw, 108px) 24px;
+    text-align: center;
+  }
+
+  .faq-head .eyebrow {
+    margin-inline: auto;
+  }
+
+  .faq-list {
+    display: grid;
+    max-width: 850px;
+    gap: 14px;
+  }
+
+  .faq-item {
+    overflow: hidden;
+    border: 1px solid rgba(220, 191, 198, 0.72);
+    border-radius: var(--radius);
+    background: white;
+  }
+
+  .faq-item button {
+    display: flex;
+    width: 100%;
+    min-height: 68px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    padding: 18px 22px;
+    text-align: left;
+  }
+
+  .faq-item button span:first-child {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 1.05rem;
+    font-weight: 800;
+  }
+
+  .faq-item div {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 180ms ease;
+  }
+
+  .faq-item p {
+    overflow: hidden;
+    margin: 0;
+    color: var(--muted);
+    padding: 0 22px;
+  }
+
+  .faq-item.open {
+    background: var(--surface-low);
+  }
+
+  .faq-item.open div {
+    grid-template-rows: 1fr;
+  }
+
+  .faq-item.open p {
+    padding-bottom: 20px;
+  }
+
+  .faq-item.open .material-symbols-outlined {
+    transform: rotate(180deg);
+  }
+</style>
