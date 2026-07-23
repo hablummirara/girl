@@ -1,0 +1,78 @@
+export const whatsappNumber = "6285773412195";
+
+export const products = [
+  {
+    id: 1,
+    name: "Velvet Dream Lipstick",
+    price: "Rp 185.000",
+    numericPrice: 185000,
+    category: "Makeup",
+    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCeOGBSG1TNcXn5DsJmsQ8_7IhIGLma4GG8W5DI34F79-VnONoKJ1mUFm8ls_bd86FlKKhHV0bx6f11wun6q0LvQKcMW7cPGHDf1rvAle2JL6RUw5mLXnNoWZdvPb5REpRQMQAaoYloyDiFIWfP_O9vjlnEIFPlOhNxIxyA5dOCI-HGdaD797SUOWtYeo7aOvXwtT5FhfHzXXZfHlxsy1PlQ3xfAF2EKkXqEwRJDdqX3af7DKVqxNQn",
+  },
+  {
+    id: 2,
+    name: "Lavender Cloud Cardigan",
+    price: "Rp 300.000",
+    numericPrice: 300000,
+    category: "Clothes",
+    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuA_N3VjS7quoDStll1WQjExOovODUhWiKXssiHJgPPilnWVPez05DPxrr1Umz8-vOF7qr_r0uQRQw_kKiyrUqKYRTaMvVwSZO6xtAUyV_86D3k78rnKvgOOd8eu9tCYgJqvTsd6fVOJH_UWBYx-O75Dyl5Ij-Fny_xdmTHiporIkDcZwtMko1HX5Ju-3n4L5aH4FlREN7PUWPHPbn71_WuWIPg8yPVQxx8ZDSGi1X2vdEYsEy93lxKz",
+    featured: true,
+  },
+  {
+    id: 3,
+    name: "Sparkle Ribbon Studs",
+    price: "Rp 120.000",
+    numericPrice: 120000,
+    category: "Accessories",
+    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCE0Xcf6jFP_80RCUhgU8CvSehsl1ORHIAJpTDT-YzlnDSTMguorLtIwRUbjF7q3rHQ9SWQ0s6xthp0H939zwRU5D0TaD4CuGwycv0yngLQyUgRIAeevnN7fCpOiTKc55qYk9EtUq7s9CncWb92jlppQGXPsR-xv60v6qMBdjekVvsHBfwvqRF3VJFYkuBz1t5TeN8we9M_yf5C9Wjt7nobXYFuj_CkT2S6YfyHzdV1BL07GbFsmQFC",
+  },
+  {
+    id: 4,
+    name: "Glow Serum Ritual",
+    price: "Rp 325.000",
+    numericPrice: 325000,
+    category: "Self Care",
+    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAoba5ERSlx5gyXxLTMSl1-3sdEVs9ppy-pDQxuZ5RVOYTXB4pMpa2MkXfUHXRd-sv49amrqMxWVPYQa_OBmDhdtg-GSL2n_yFoXoKns11dhEuvMSnXOXkBnWxlYUmwt-9cvj2OkB6LxdL7Y9eQHhfaS0mE_lVKNh9BKZc66_v_0USt_wtKNsRiZAQgv2v-HqdnugcTlSQ-oyYeR2OjG_7JHHX7ZA7wQLVtQrAlq9ShMjZp2zH-XTPD",
+  },
+  {
+    id: 5,
+    name: "Sunday Picnic Dress",
+    price: "Rp 599.000",
+    numericPrice: 599000,
+    category: "Clothes",
+    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDs6BpMD6EI3Bzo6bRoEDGhLWSynOJo08WdejTIrvNfb2arNV4Q-lLonuoZwWD-nslR-izdM7zyWWni1hpqcYqg6Btpus4FHLlSJ5f2UhgX09bqPNxkBMCIIKk1TaOf8xRQsFScqcAJEsik-dMcWDTq5RVCESPvD6BIrSSKCqpwNjUvcPy1qn9K8tdon0QnKidYp7CiaNLyuXnz4RZN8iZTERwY5k4MN3SdG_Vgz3qgzd6qtXmJTBO2",
+  },
+  {
+    id: 6,
+    name: "Quilted Vanity Pouch",
+    price: "Rp 210.000",
+    numericPrice: 210000,
+    category: "Makeup",
+    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDY14HqmXC1tME52h4yMUeevf07l42fLerrX8J_6TCWaeUP2BhDjwJR8J8c_aTpXiRVKDsvjR3UsdvwWGhsxsU8E4CuVOqQEevUFtMz2UEPjNr1oOk_iGcC58Ky3OlLV4kmKjZQAhem2cvk0xydhMKK8uoarZQP9lzczQTZ-jE5tt6LYsjMfvVPKTU9SEoZ2lzko72vqY5nYkgsInB96jDqkogM5YkxewOM_H9xSc4iv4mZbO24nKyv",
+  },
+  {
+    id: 7,
+    name: "Sunset Glow Palette",
+    price: "Rp 195.000",
+    numericPrice: 195000,
+    category: "Makeup",
+    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDuKNiBCZR7Kav8s50JygV72juXgw7dA8WSWM1R6eo7z8Le_MDgygiKEp7iZDTuJpaUF76NvENmYvFmIjuXFhmGBv1BUDXDhLPjZnHSvWnE3K61W5VBsFJNuRkYIyjPz1z08JWJYo29IiMeQCgvdtlyE-eNkTjr-eCXP3BrzExKE9rTJ-22XsH9URrtrLYF6j2yXDZ_nJ7H4f39t4EHZDs2rlRnGDE7G5ingbyYh1CE27wkMi7ZHPPX",
+  },
+  {
+    id: 8,
+    name: "Heart Pendant Chain",
+    price: "Rp 85.000",
+    numericPrice: 85000,
+    category: "Accessories",
+    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuA3DEvgzSyjzsEb2i_beBZ1grlg5gGJYK5IYSaUkHJo67AxrM6Ybz1m1pWv15CNein-MhzzA0xwoS9QdCPK5Dce-vAhsaiGV_-nsSrEU49KP4x_HMb8ZhLU3UtkJVW06cqBT91xYvkQpA2YsYX6kOkI7hE_szDppdU2ACtSWoCrxi8WivdaXVh5ZO80OVTqFI3A2zBUy7vNMpg2bht5utSS4k9P6Vnznl3dyZe38p-gFByx2xV59WRQ",
+  },
+];
+
+export const cartItems = [products[1], products[0]];
+
+export const bestSellers = [
+  products[1],
+  { ...products[3], name: "Glow Skin Tint", price: "Rp 185.000", numericPrice: 185000 },
+  { ...products[5], name: "Sage Linen Trousers", price: "Rp 315.000", numericPrice: 315000 },
+  { ...products[7], name: "Pearl Gold Necklace", price: "Rp 129.000", numericPrice: 129000 },
+];
