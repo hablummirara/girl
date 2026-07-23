@@ -28,7 +28,7 @@ const path = Astro.url.pathname.replace(/\/$/, "") || "/";
       </a>
       <a class="cart-link" href="/cart" aria-label="Keranjang belanja">
         <span class="material-symbols-outlined">shopping_cart</span>
-        <span>2</span>
+        <span data-cart-count class="is-empty">0</span>
       </a>
       <button class="menu-toggle" type="button" aria-label="Buka menu" aria-expanded="false" data-menu-toggle>
         <span class="material-symbols-outlined">menu</span>
@@ -144,6 +144,10 @@ const path = Astro.url.pathname.replace(/\/$/, "") || "/";
     color: white;
     font-size: 0.66rem;
     font-weight: 800;
+  }
+
+  .cart-link > span:last-child.is-empty {
+    display: none;
   }
 
   .menu-toggle {

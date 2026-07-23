@@ -12,9 +12,19 @@ const { product } = Astro.props;
     <h3>{product.name}</h3>
     <div>
       <strong>{product.price}</strong>
-      <a href={`/product-detail?product=${product.id}`} aria-label={`Beli ${product.name}`}>
+      <button
+        type="button"
+        data-add-to-cart
+        data-id={product.id}
+        data-name={product.name}
+        data-price={product.price}
+        data-numeric-price={product.numericPrice}
+        data-category={product.category}
+        data-img={product.img}
+        aria-label={`Tambah ${product.name} ke keranjang`}
+      >
         <span class="material-symbols-outlined">add_shopping_cart</span>
-      </a>
+      </button>
     </div>
   </div>
 </article>
@@ -90,15 +100,17 @@ const { product } = Astro.props;
     font-size: 1.02rem;
   }
 
-  .product-info a {
+  .product-info button {
     display: grid;
     width: 40px;
     height: 40px;
     flex: 0 0 40px;
     place-items: center;
+    border: 0;
     border-radius: 50%;
     background: var(--primary-soft);
     color: var(--primary);
+    cursor: pointer;
   }
 
   @media (max-width: 520px) {

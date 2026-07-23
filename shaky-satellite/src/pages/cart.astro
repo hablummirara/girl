@@ -2,13 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
-import { cartItems, whatsappNumber } from "../data/products";
-
-const subtotal = cartItems.reduce((total, item) => total + item.numericPrice, 0);
-const format = new Intl.NumberFormat("id-ID").format;
-const message = `Halo Girl Collection! Aku mau checkout pesanan berikut:\n\n${cartItems
-  .map((item) => `- ${item.name} (x1) - ${item.price}`)
-  .join("\n")}\n\nTotal: Rp ${format(subtotal)}\n\nMohon info langkah selanjutnya ya, terima kasih!`;
+import { whatsappNumber } from "../data/products";
 ---
 
 <Layout title="Keranjang | Girl Collection">
@@ -18,43 +12,129 @@ const message = `Halo Girl Collection! Aku mau checkout pesanan berikut:\n\n${ca
       <div class="cart-list">
         <div class="cart-head">
           <h1 class="title-md">Keranjang Belanja</h1>
-          <span>{cartItems.length} Items</span>
+          <span><strong data-cart-page-count>0</strong> Items</span>
         </div>
-        {cartItems.map((item) => (
-          <article class="cart-item">
-            <img src={item.img} alt={item.name} />
-            <div>
-              <h2>{item.name}</h2>
-              <p>{item.price}</p>
-              <span>Qty: 1</span>
-            </div>
-            <button type="button" aria-label={`Hapus ${item.name}`}>
-              <span class="material-symbols-outlined">delete</span>
-            </button>
-          </article>
-        ))}
+
+        <div class="items" data-cart-items></div>
+
+        <div class="empty-cart" data-empty-cart>
+          <span class="material-symbols-outlined">shopping_bag</span>
+          <h2>Keranjangmu masih kosong</h2>
+          <p>Yuk pilih produk favoritmu dulu, lalu tambahkan ke keranjang.</p>
+          <a class="btn btn-primary" href="/products">Mulai Belanja</a>
+        </div>
       </div>
 
-      <aside class="summary">
+      <aside class="summary" data-cart-summary>
         <h2>Ringkasan Pesanan</h2>
         <div>
           <span>Subtotal</span>
-          <strong>Rp {format(subtotal)}</strong>
+          <strong data-subtotal>Rp 0</strong>
         </div>
         <p>Estimasi pengiriman akan diinformasikan setelah detail alamat dikirim melalui chat WhatsApp.</p>
         <div class="total">
           <span>Total</span>
-          <strong>Rp {format(subtotal)}</strong>
+          <strong data-total>Rp 0</strong>
         </div>
-        <a class="btn checkout" href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`} target="_blank" rel="noreferrer">
+        <a class="btn checkout disabled" href="#" data-checkout>
           <span class="material-symbols-outlined">chat</span>
           Checkout via WhatsApp
         </a>
+        <button class="clear-cart" type="button" data-clear-cart>Kosongkan Keranjang</button>
       </aside>
     </section>
   </main>
   <Footer />
 </Layout>
+
+<script define:vars={{ whatsappNumber }}>
+  const itemsTarget = document.querySelector("[data-cart-items]");
+  const emptyTarget = document.querySelector("[data-empty-cart]");
+  const summaryTarget = document.querySelector("[data-cart-summary]");
+  const countTarget = document.querySelector("[data-cart-page-count]");
+  const subtotalTarget = document.querySelector("[data-subtotal]");
+  const totalTarget = document.querySelector("[data-total]");
+  const checkoutTarget = document.querySelector("[data-checkout]");
+  const clearTarget = document.querySelector("[data-clear-cart]");
+
+  const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "\"": "&quot;",
+    "'": "&#039;",
+  }[char]));
+
+  const renderCart = () => {
+    const cart = window.GirlCart;
+    if (!cart || !itemsTarget) return;
+
+    const items = cart.items();
+    const count = cart.count(items);
+    const total = cart.total(items);
+    const hasItems = items.length > 0;
+
+    if (countTarget) countTarget.textContent = String(count);
+    if (subtotalTarget) subtotalTarget.textContent = `Rp ${cart.format(total)}`;
+    if (totalTarget) totalTarget.textContent = `Rp ${cart.format(total)}`;
+    emptyTarget?.classList.toggle("show", !hasItems);
+    summaryTarget?.classList.toggle("disabled", !hasItems);
+
+    itemsTarget.innerHTML = items.map((item) => `
+      <article class="cart-item">
+        <img src="${escapeHtml(item.img)}" alt="${escapeHtml(item.name)}" />
+        <div>
+          <h2>${escapeHtml(item.name)}</h2>
+          <p>${escapeHtml(item.price)}</p>
+          <label>
+            Qty
+            <input type="number" min="1" value="${item.qty}" data-cart-qty="${item.id}" />
+          </label>
+        </div>
+        <button type="button" data-remove-cart="${item.id}" aria-label="Hapus ${escapeHtml(item.name)}">
+          <span class="material-symbols-outlined">delete</span>
+        </button>
+      </article>
+    `).join("");
+
+    if (checkoutTarget) {
+      const lines = items.map((item) => `- ${item.name} (x${item.qty}) - Rp ${cart.format(item.numericPrice * item.qty)}`).join("\n");
+      const message = `Halo Girl Collection! Aku mau checkout pesanan berikut:\n\n${lines}\n\nTotal: Rp ${cart.format(total)}\n\nMohon info langkah selanjutnya ya, terima kasih!`;
+      checkoutTarget.href = hasItems ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}` : "#";
+      checkoutTarget.classList.toggle("disabled", !hasItems);
+      checkoutTarget.toggleAttribute("target", hasItems);
+      checkoutTarget.toggleAttribute("rel", hasItems);
+      if (hasItems) checkoutTarget.rel = "noreferrer";
+    }
+  };
+
+  document.addEventListener("click", (event) => {
+    const removeButton = event.target.closest("[data-remove-cart]");
+    if (removeButton) {
+      window.GirlCart?.remove(removeButton.dataset.removeCart);
+      renderCart();
+    }
+  });
+
+  document.addEventListener("input", (event) => {
+    const qtyInput = event.target.closest("[data-cart-qty]");
+    if (qtyInput) {
+      window.GirlCart?.updateQty(qtyInput.dataset.cartQty, qtyInput.value);
+      renderCart();
+    }
+  });
+
+  clearTarget?.addEventListener("click", () => {
+    localStorage.setItem("girl-collection-cart", "[]");
+    window.GirlCart?.updateBadges([]);
+    window.dispatchEvent(new CustomEvent("girl-cart-change", { detail: [] }));
+    renderCart();
+  });
+
+  window.addEventListener("girl-cart-ready", renderCart);
+  window.addEventListener("girl-cart-change", renderCart);
+  renderCart();
+</script>
 
 <style>
   .cart {
@@ -64,7 +144,8 @@ const message = `Halo Girl Collection! Aku mau checkout pesanan berikut:\n\n${ca
     padding-block: 42px;
   }
 
-  .cart-list {
+  .cart-list,
+  .items {
     display: grid;
     gap: 16px;
   }
@@ -80,6 +161,10 @@ const message = `Halo Girl Collection! Aku mau checkout pesanan berikut:\n\n${ca
   .cart-head span {
     color: var(--muted);
     font-weight: 800;
+  }
+
+  .cart-head strong {
+    color: var(--primary);
   }
 
   .cart-item {
@@ -107,9 +192,26 @@ const message = `Halo Girl Collection! Aku mau checkout pesanan berikut:\n\n${ca
   }
 
   .cart-item p {
-    margin: 0;
+    margin: 0 0 10px;
     color: var(--primary);
     font-weight: 900;
+  }
+
+  .cart-item label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-weight: 800;
+  }
+
+  .cart-item input {
+    width: 68px;
+    min-height: 36px;
+    border: 1px solid var(--outline);
+    border-radius: 999px;
+    padding: 6px 10px;
+    text-align: center;
   }
 
   .cart-item button {
@@ -124,6 +226,39 @@ const message = `Halo Girl Collection! Aku mau checkout pesanan berikut:\n\n${ca
     cursor: pointer;
   }
 
+  .cart-item button:hover {
+    color: var(--primary);
+  }
+
+  .empty-cart {
+    display: none;
+    justify-items: center;
+    border: 1px dashed var(--outline);
+    border-radius: var(--radius);
+    background: white;
+    padding: 44px 24px;
+    text-align: center;
+  }
+
+  .empty-cart.show {
+    display: grid;
+  }
+
+  .empty-cart .material-symbols-outlined {
+    color: var(--primary);
+    font-size: 52px;
+  }
+
+  .empty-cart h2 {
+    margin: 10px 0 4px;
+    font-family: "Plus Jakarta Sans", sans-serif;
+  }
+
+  .empty-cart p {
+    margin: 0 0 18px;
+    color: var(--muted);
+  }
+
   .summary {
     position: sticky;
     top: 112px;
@@ -135,6 +270,10 @@ const message = `Halo Girl Collection! Aku mau checkout pesanan berikut:\n\n${ca
     background: white;
     box-shadow: var(--shadow);
     padding: 24px;
+  }
+
+  .summary.disabled {
+    opacity: 0.72;
   }
 
   .summary h2 {
@@ -166,6 +305,21 @@ const message = `Halo Girl Collection! Aku mau checkout pesanan berikut:\n\n${ca
     width: 100%;
     background: var(--whatsapp);
     color: white;
+  }
+
+  .checkout.disabled {
+    pointer-events: none;
+    filter: grayscale(1);
+  }
+
+  .clear-cart {
+    min-height: 42px;
+    border: 1px solid var(--outline);
+    border-radius: 999px;
+    background: white;
+    color: var(--primary);
+    cursor: pointer;
+    font-weight: 900;
   }
 
   @media (max-width: 900px) {

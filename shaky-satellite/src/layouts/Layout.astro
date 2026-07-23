@@ -1,4 +1,6 @@
 ---
+import CartManager from "../components/CartManager.astro";
+
 const {
   title = "Girl Collection | Your Digital Best Friend",
   description = "Girl Collection adalah web statis katalog belanja cewek dengan checkout WhatsApp.",
@@ -21,6 +23,7 @@ const {
   </head>
   <body>
     <slot />
+    <CartManager />
   </body>
 </html>
 

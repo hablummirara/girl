@@ -67,10 +67,20 @@ const product = products.find((item) => item.id === selectedId) || products[1];
               <span class="material-symbols-outlined">chat</span>
               Beli Sekarang
             </a>
-            <a class="btn btn-outline" href="/cart">
+            <button
+              class="btn btn-outline"
+              type="button"
+              data-add-to-cart
+              data-id={product.id}
+              data-name={product.name}
+              data-price={product.price}
+              data-numeric-price={product.numericPrice}
+              data-category={product.category}
+              data-img={product.img}
+            >
               <span class="material-symbols-outlined">add_shopping_cart</span>
               Tambah ke Keranjang
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -215,6 +225,10 @@ const product = products.find((item) => item.id === selectedId) || products[1];
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
+  }
+
+  .actions button {
+    border: 2px solid rgba(170, 44, 98, 0.2);
   }
 
   .colors button {
