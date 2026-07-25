@@ -66,13 +66,63 @@ export const products = [
     category: "Accessories",
     img: "https://lh3.googleusercontent.com/aida-public/AB6AXuA3DEvgzSyjzsEb2i_beBZ1grlg5gGJYK5IYSaUkHJo67AxrM6Ybz1m1pWv15CNein-MhzzA0xwoS9QdCPK5Dce-vAhsaiGV_-nsSrEU49KP4x_HMb8ZhLU3UtkJVW06cqBT91xYvkQpA2YsYX6kOkI7hE_szDppdU2ACtSWoCrxi8WivdaXVh5ZO80OVTqFI3A2zBUy7vNMpg2bht5utSS4k9P6Vnznl3dyZe38p-gFByx2xV59WRQ",
   },
+  {
+    id: 9,
+    name: "Cherry Ribbon Blouse",
+    price: "Rp 245.000",
+    numericPrice: 245000,
+    category: "Baju",
+    img: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=80",
+    featured: true,
+  },
+  {
+    id: 10,
+    name: "Rosie Puff Sleeve Top",
+    price: "Rp 229.000",
+    numericPrice: 229000,
+    category: "Baju",
+    img: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    id: 11,
+    name: "Mint Wide Leg Pants",
+    price: "Rp 289.000",
+    numericPrice: 289000,
+    category: "Celana",
+    img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    id: 12,
+    name: "Creamy Soft Culotte",
+    price: "Rp 275.000",
+    numericPrice: 275000,
+    category: "Celana",
+    img: "https://images.unsplash.com/photo-1598554747436-c9293d6a588f?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    id: 13,
+    name: "Peach Picnic Skirt",
+    price: "Rp 255.000",
+    numericPrice: 255000,
+    category: "Rok",
+    img: "https://images.unsplash.com/photo-1551163943-3f6a855d1153?auto=format&fit=crop&w=900&q=80",
+    featured: true,
+  },
+  {
+    id: 14,
+    name: "Lilac Pleated Mini Skirt",
+    price: "Rp 235.000",
+    numericPrice: 235000,
+    category: "Rok",
+    img: "https://images.unsplash.com/photo-1583496661160-fb5886a13d27?auto=format&fit=crop&w=900&q=80",
+  },
 ];
 
 export const cartItems = [products[1], products[0]];
 
 export const bestSellers = [
   products[1],
-  { ...products[3], name: "Glow Skin Tint", price: "Rp 185.000", numericPrice: 185000 },
-  { ...products[5], name: "Sage Linen Trousers", price: "Rp 315.000", numericPrice: 315000 },
-  { ...products[7], name: "Pearl Gold Necklace", price: "Rp 129.000", numericPrice: 129000 },
+  products[8],
+  products[12],
+  { ...products[10], name: "Sage Linen Trousers", price: "Rp 315.000", numericPrice: 315000 },
 ];
