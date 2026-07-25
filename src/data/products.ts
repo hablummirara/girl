@@ -108,14 +108,6 @@ export const products = [
     img: "https://images.unsplash.com/photo-1551163943-3f6a855d1153?auto=format&fit=crop&w=900&q=80",
     featured: true,
   },
-  {
-    id: 14,
-    name: "Lilac Pleated Mini Skirt",
-    price: "Rp 235.000",
-    numericPrice: 235000,
-    category: "Rok",
-    img: "https://images.unsplash.com/photo-1583496661160-fb5886a13d27?auto=format&fit=crop&w=900&q=80",
-  },
 ];
 
 export const cartItems = [products[1], products[0]];
